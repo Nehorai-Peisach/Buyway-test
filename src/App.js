@@ -42,7 +42,7 @@ class App extends Component {
         const getData = async () => {
             const response = await axios.get('https://api.buy-way.net/products/ast_0IDuOXE1oZg1oTYWyoZg');
             const data = response.data;
-            setProducts(data);
+            setProduct(data);
         };
 
         return (
