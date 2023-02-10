@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Helmet } from 'react-helmet';
@@ -34,13 +34,29 @@ class LambdaDemo extends Component {
 
 class App extends Component {
     render() {
+        const [product, setProduct] = useState(null);
+        useEffect(() => {
+            getData();
+        }, []);
+
+        const getData = async () => {
+            const response = await axios.get('https://api.buy-way.net/products/ast_0IDuOXE1oZg1oTYWyoZg');
+            const data = response.data;
+            setProducts(data);
+        };
+
         return (
             <div className="App">
-                <Helmet>
-                    <meta charSet="utf-8" />
-                    <title>My Title</title>
-                    <link rel="canonical" href="http://mysite.com/example" />
-                </Helmet>
+                {product && (
+                    <Helmet>
+                        <meta property="og:title" content={product.name} />
+                        <meta property="og:image" content={'https://buyway.fra1.cdn.digitaloceanspaces.com/content/images/product-images' + product.advancedDataItems.images[0]} />
+                        <meta property="og:image:type" content="image/jpeg" />
+                        <meta property="og:image:width" content="400" />
+                        <meta property="og:image:height" content="300" />
+                        <meta property="og:image:alt" content={product.description} />
+                    </Helmet>
+                )}
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
                     <p>
